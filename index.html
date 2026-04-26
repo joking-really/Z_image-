@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZImage Generator</title>
+    <style>
+        :root {
+            --bg: #0f0f11;
+            --surface: #1a1a1f;
+            --surface2: #222228;
+            --border: #2e2e38;
+            --text: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --accent-glow: rgba(124, 58, 237, 0.3);
+            --danger: #ef4444;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(124, 58, 237, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(100, 100, 120, 0.03) 0%, transparent 70%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .header .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .header .logo .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 0 24px var(--accent-glow);
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: -8px;
+        }
+
+        /* Form elements */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.01em;
+        }
+
+        textarea,
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        textarea:focus,
+        input[type="number"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        textarea {
+            min-height: 100px;
+            line-height: 1.5;
+        }
+
+        textarea::placeholder {
+            color: #52525b;
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            width: 100%;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 0 28px rgba(124, 58, 237, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Result area */
+        .result-area {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .result-area.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-wrapper {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: opacity 0.4s ease;
+        }
+
+        .image-wrapper img.loading-img {
+            opacity: 0.4;
+            filter: blur(10px);
+        }
+
+        .download-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            flex: 1;
+        }
+
+        .btn-outline:hover {
+            background: var(--surface2);
+            border-color: #52525b;
+        }
+
+        /* Toast / Error */
+        .toast {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            border: 1px solid;
+        }
+
+        .toast.active {
+            display: block;
+        }
+
+        .toast.error {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .toast.info {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: rgba(124, 58, 237, 0.3);
+            color: #c4b5fd;
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            .row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .card {
+                padding: 16px;
+                gap: 14px;
+            }
+            .header .logo {
+                font-size: 1.4rem;
+            }
+            .header .logo .icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1.1rem;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="icon">✨</span>
+                ZImage Generator
+            </div>
+            <p class="subtitle">Enter a prompt and generate an AI image instantly</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card" id="formCard">
+            <span class="card-label">Prompt</span>
+            <div class="form-group">
+                <textarea
+                id="prompt"
+                placeholder="Describe the image you want to generate in detail...&#10;&#10;e.g. A serene lakeside cabin at sunset with mist rolling over the water, golden light filtering through pine trees, photorealistic, 8k"
+            >book</textarea>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="width">Width (px)</label>
+                <input type="number" id="width" value="1024" min="64" max="2048" step="64">
+            </div>
+            <div class="form-group">
+                <label for="height">Height (px)</label>
+                <input type="number" id="height" value="1024" min="64" max="2048" step="64">
+            </div>
+            <div class="form-group">
+                <label for="steps">Steps</label>
+                <input type="number" id="steps" value="9" min="1" max="50" step="1">
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="generateBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Generate Image
+        </button>
+
+        <!-- Toast messages -->
+        <div class="toast error" id="errorToast"></div>
+        <div class="toast info" id="infoToast"></div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="card result-area" id="resultArea">
+        <span class="card-label">Generated Image</span>
+        <div class="image-wrapper" id="imageWrapper">
+            <img
+            id="generatedImage"
+            src=""
+            alt="Generated image will appear here"
+            style="display:none;"
+        />
+        <span id="placeholderText" style="color: #52525b; font-size: 0.9rem;">
+            Your image will appear here
+        </span>
+    </div>
+    <div class="download-bar">
+        <button class="btn btn-outline" id="downloadBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download PNG
+        </button>
+        <button class="btn btn-outline" id="newGenBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            New Generation
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    (function() {
+        // DOM elements
+        const promptEl = document.getElementById('prompt');
+        const widthEl = document.getElementById('width');
+        const heightEl = document.getElementById('height');
+        const stepsEl = document.getElementById('steps');
+        const generateBtn = document.getElementById('generateBtn');
+        const errorToast = document.getElementById('errorToast');
+        const infoToast = document.getElementById('infoToast');
+        const resultArea = document.getElementById('resultArea');
+        const generatedImage = document.getElementById('generatedImage');
+        const placeholderText = document.getElementById('placeholderText');
+        const imageWrapper = document.getElementById('imageWrapper');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const newGenBtn = document.getElementById('newGenBtn');
+        const formCard = document.getElementById('formCard');
+
+        const API_URL = 'https://jokinig-really--zimage-api-fastapi-app.modal.run/generate';
+
+        let isGenerating = false;
+        let currentImageDataUrl = null;
+
+        // Hide all toasts
+        function hideToasts() {
+            errorToast.classList.remove('active');
+            infoToast.classList.remove('active');
+        }
+
+        function showError(message) {
+            hideToasts();
+            errorToast.textContent = message;
+            errorToast.classList.add('active');
+            // Auto-hide after 8 seconds
+            setTimeout(() => errorToast.classList.remove('active'), 8000);
+        }
+
+        function showInfo(message) {
+            hideToasts();
+            infoToast.textContent = message;
+            infoToast.classList.add('active');
+            setTimeout(() => infoToast.classList.remove('active'), 6000);
+        }
+
+        function setLoading(loading) {
+            isGenerating = loading;
+            generateBtn.disabled = loading;
+            if (loading) {
+                generateBtn.innerHTML = '<span class="spinner"></span> Generating...';
+            } else {
+                generateBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                        Generate Image
+                    `;
+            }
+        }
+
+        function base64ToDataUrl(base64, mimeType = 'image/png') {
+            // If it already starts with data:, return as-is
+            if (base64.startsWith('data:')) return base64;
+            // Clean up any whitespace or newlines
+            const cleaned = base64.replace(/\s/g, '');
+            return `data:${mimeType};base64,${cleaned}`;
+        }
+
+        function showImage(dataUrl) {
+            currentImageDataUrl = dataUrl;
+            generatedImage.src = dataUrl;
+            generatedImage.style.display = 'block';
+            generatedImage.classList.add('loading-img');
+            placeholderText.style.display = 'none';
+
+            // Remove blur once loaded
+            generatedImage.onload = () => {
+                generatedImage.classList.remove('loading-img');
+            };
+
+            // If already cached and loaded instantly
+            if (generatedImage.complete && generatedImage.naturalWidth > 0) {
+                generatedImage.classList.remove('loading-img');
+            }
+
+            resultArea.classList.add('active');
+            // Smooth scroll to result
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        async function generateImage() {
+            hideToasts();
+
+            const prompt = promptEl.value.trim();
+            if (!prompt) {
+                showError('Please enter a prompt describing the image you want.');
+                promptEl.focus();
+                return;
+            }
+
+            const width = parseInt(widthEl.value, 10);
+            const height = parseInt(heightEl.value, 10);
+            const steps = parseInt(stepsEl.value, 10);
+
+            if (isNaN(width) || width < 64 || width > 2048) {
+                showError('Width must be between 64 and 2048 pixels.');
+                widthEl.focus();
+                return;
+            }
+            if (isNaN(height) || height < 64 || height > 2048) {
+                showError('Height must be between 64 and 2048 pixels.');
+                heightEl.focus();
+                return;
+            }
+            if (isNaN(steps) || steps < 1 || steps > 50) {
+                showError('Steps must be between 1 and 50.');
+                stepsEl.focus();
+                return;
+            }
+
+            setLoading(true);
+            showInfo('Generating image... this may take a few moments.');
+
+            const payload = {
+                prompt: prompt,
+                width: width,
+                height: height,
+                steps: steps,
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    let errorDetail = `API responded with status ${response.status}`;
+                    try {
+                        const errBody = await response.json();
+                        if (errBody.detail) errorDetail = errBody.detail;
+                        else if (errBody.message) errorDetail = errBody.message;
+                        else if (typeof errBody === 'string') errorDetail = errBody;
+                    } catch {
+                        // Couldn't parse error body, use default
+                    }
+                    throw new Error(errorDetail);
+                }
+
+                const data = await response.json();
+
+                // Look for the base64 image in the response
+                // The n8n workflow expects `image_base64` property
+                let base64Image = null;
+
+                if (data.image_base64) {
+                    base64Image = data.image_base64;
+                } else if (data.image) {
+                    base64Image = data.image;
+                } else if (data.data) {
+                    base64Image = data.data;
+                } else if (data.result) {
+                    base64Image = data.result;
+                } else if (typeof data === 'string') {
+                    base64Image = data;
+                } else {
+                    // Try to find any base64-like string in the response
+                    const jsonStr = JSON.stringify(data);
+                    const base64Match = jsonStr.match(/[A-Za-z0-9+/]{100,}={0,2}/);
+                    if (base64Match) {
+                        base64Image = base64Match[0];
+                    }
+                }
+
+                if (!base64Image) {
+                    console.error('Response data:', data);
+                    throw new Error(
+                        'No image data found in the response. The API may have returned an unexpected format.'
+                    );
+                }
+
+                const dataUrl = base64ToDataUrl(base64Image);
+                showImage(dataUrl);
+                hideToasts();
+                showInfo('✅ Image generated successfully!');
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    showError(
+                        'Network error: Unable to reach the API. Please check your internet connection or try again later.'
+                    );
+                } else {
+                    showError(`Generation failed: ${error.message}`);
+                }
+                setLoading(false);
+            } finally {
+                if (!isGenerating) {
+                    setLoading(false);
+                }
+                // If generation succeeded, loading is already false from showImage flow
+                // But we need to reset button state; let's check
+                if (!errorToast.classList.contains('active') || resultArea.classList.contains('active')) {
+                    setLoading(false);
+                }
+                // Safety: always reset after a short delay if stuck
+                setTimeout(() => {
+                    if (isGenerating && !resultArea.classList.contains('active') && !errorToast.classList
+                        .contains('active')) {
+                        setLoading(false);
+                    }
+                }, 30000);
+            }
+        }
+
+        function downloadImage() {
+            if (!currentImageDataUrl) {
+                showError('No image to download yet. Generate one first!');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = currentImageDataUrl;
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+            const safePrompt = promptEl.value.trim().slice(0, 40).replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g,
+                '-') || 'image';
+            link.download = `zimage-${safePrompt}-${timestamp}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showInfo('📥 Image download started!');
+        }
+
+        function resetForNew() {
+            resultArea.classList.remove('active');
+            generatedImage.style.display = 'none';
+            generatedImage.src = '';
+            placeholderText.style.display = '';
+            currentImageDataUrl = null;
+            hideToasts();
+            // Scroll back to form
+            formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            promptEl.focus();
+        }
+
+        // Event listeners
+        generateBtn.addEventListener('click', generateImage);
+        downloadBtn.addEventListener('click', downloadImage);
+        newGenBtn.addEventListener('click', resetForNew);
+
+        // Keyboard shortcut: Ctrl+Enter to generate
+        promptEl.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                generateImage();
+            }
+        });
+
+        // Also allow Enter in number inputs to trigger generation
+        [widthEl, heightEl, stepsEl].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    generateImage();
+                }
+            });
+        });
+
+        // Show keyboard shortcut hint
+        console.log('✨ ZImage Generator ready. Tip: Press Ctrl+Enter in the prompt field to generate!');
+    })();
+</script>
+</body>
+</html>
