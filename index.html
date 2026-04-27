@@ -16,16 +16,14 @@
             --accent-hover: #6d28d9;
             --accent-glow: rgba(124, 58, 237, 0.3);
             --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
             --radius: 12px;
             --radius-sm: 8px;
             --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -44,13 +42,12 @@
 
         .container {
             width: 100%;
-            max-width: 720px;
+            max-width: 760px;
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
 
-        /* Header */
         .header {
             text-align: center;
             display: flex;
@@ -87,7 +84,6 @@
             font-weight: 400;
         }
 
-        /* Card */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -108,7 +104,6 @@
             margin-bottom: -8px;
         }
 
-        /* Form elements */
         .form-group {
             display: flex;
             flex-direction: column;
@@ -122,8 +117,7 @@
             letter-spacing: 0.01em;
         }
 
-        textarea,
-        input[type="number"] {
+        textarea, input[type="number"] {
             width: 100%;
             padding: 12px 14px;
             background: var(--surface2);
@@ -137,31 +131,17 @@
             outline: none;
         }
 
-        textarea:focus,
-        input[type="number"]:focus {
+        textarea:focus, input[type="number"]:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
-        textarea {
-            min-height: 100px;
-            line-height: 1.5;
-        }
+        textarea { min-height: 100px; line-height: 1.5; }
+        textarea::placeholder { color: #52525b; }
 
-        textarea::placeholder {
-            color: #52525b;
-        }
+        .row { display: flex; gap: 12px; }
+        .row .form-group { flex: 1; }
 
-        .row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .row .form-group {
-            flex: 1;
-        }
-
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -193,10 +173,7 @@
             transform: translateY(-1px);
         }
 
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
+        .btn-primary:active { transform: scale(0.98); }
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -205,12 +182,8 @@
             transform: none;
         }
 
-        .btn svg {
-            width: 18px;
-            height: 18px;
-        }
+        .btn svg { width: 18px; height: 18px; }
 
-        /* Spinner */
         .spinner {
             display: inline-block;
             width: 18px;
@@ -221,13 +194,8 @@
             animation: spin 0.7s linear infinite;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Result area */
         .result-area {
             display: none;
             flex-direction: column;
@@ -235,19 +203,11 @@
             animation: fadeIn 0.35s ease;
         }
 
-        .result-area.active {
-            display: flex;
-        }
+        .result-area.active { display: flex; }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .image-wrapper {
@@ -275,11 +235,7 @@
             filter: blur(10px);
         }
 
-        .download-bar {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+        .download-bar { display: flex; gap: 10px; align-items: center; }
 
         .btn-outline {
             background: transparent;
@@ -288,12 +244,8 @@
             flex: 1;
         }
 
-        .btn-outline:hover {
-            background: var(--surface2);
-            border-color: #52525b;
-        }
+        .btn-outline:hover { background: var(--surface2); border-color: #52525b; }
 
-        /* Toast / Error */
         .toast {
             padding: 12px 16px;
             border-radius: var(--radius-sm);
@@ -304,47 +256,64 @@
             border: 1px solid;
         }
 
-        .toast.active {
-            display: block;
+        .toast.active { display: block; }
+        .toast.error { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.35); color: #fca5a5; }
+        .toast.info { background: rgba(124, 58, 237, 0.1); border-color: rgba(124, 58, 237, 0.3); color: #c4b5fd; }
+        .toast.success { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.35); color: #86efac; }
+        .toast.warning { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.35); color: #fcd34d; }
+
+        /* Debug panel */
+        .debug-panel {
+            display: none;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
         }
 
-        .toast.error {
-            background: rgba(239, 68, 68, 0.12);
-            border-color: rgba(239, 68, 68, 0.35);
-            color: #fca5a5;
+        .debug-panel.active { display: block; }
+        .debug-panel .debug-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-family: inherit;
         }
+        .debug-panel .debug-line { margin: 2px 0; }
+        .debug-panel .debug-key { color: #a78bfa; }
+        .debug-panel .debug-value { color: #22c55e; }
+        .debug-panel .debug-error { color: #ef4444; }
+        .debug-panel .debug-warn { color: #f59e0b; }
 
-        .toast.info {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: rgba(124, 58, 237, 0.3);
-            color: #c4b5fd;
+        .debug-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            margin-top: -10px;
         }
+        .debug-toggle:hover { color: var(--text); }
 
-        /* Responsive */
         @media (max-width: 520px) {
-            .row {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .card {
-                padding: 16px;
-                gap: 14px;
-            }
-            .header .logo {
-                font-size: 1.4rem;
-            }
-            .header .logo .icon {
-                width: 34px;
-                height: 34px;
-                font-size: 1.1rem;
-                border-radius: 8px;
-            }
+            .row { flex-direction: column; gap: 12px; }
+            .card { padding: 16px; gap: 14px; }
+            .header .logo { font-size: 1.4rem; }
+            .header .logo .icon { width: 34px; height: 34px; font-size: 1.1rem; border-radius: 8px; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo">
                 <span class="icon">✨</span>
@@ -353,350 +322,453 @@
             <p class="subtitle">Enter a prompt and generate an AI image instantly</p>
         </div>
 
-        <!-- Form Card -->
         <div class="card" id="formCard">
             <span class="card-label">Prompt</span>
             <div class="form-group">
-                <textarea
-                id="prompt"
-                placeholder="Describe the image you want to generate in detail...&#10;&#10;e.g. A serene lakeside cabin at sunset with mist rolling over the water, golden light filtering through pine trees, photorealistic, 8k"
-            >book</textarea>
+                <textarea id="prompt" placeholder="Describe the image you want to generate in detail...
+
+e.g. A serene lakeside cabin at sunset with mist rolling over the water, golden light filtering through pine trees, photorealistic, 8k">book</textarea>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="width">Width (px)</label>
+                    <input type="number" id="width" value="1024" min="64" max="2048" step="64">
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (px)</label>
+                    <input type="number" id="height" value="1024" min="64" max="2048" step="64">
+                </div>
+                <div class="form-group">
+                    <label for="steps">Steps</label>
+                    <input type="number" id="steps" value="9" min="1" max="50" step="1">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="generateBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                Generate Image
+            </button>
+
+            <div class="toast error" id="errorToast"></div>
+            <div class="toast info" id="infoToast"></div>
+            <div class="toast success" id="successToast"></div>
+            <div class="toast warning" id="warnToast"></div>
+
+            <button class="debug-toggle" id="debugToggle" style="display:none;">Show Debug Log</button>
+            <div class="debug-panel" id="debugPanel"></div>
         </div>
 
-        <div class="row">
-            <div class="form-group">
-                <label for="width">Width (px)</label>
-                <input type="number" id="width" value="1024" min="64" max="2048" step="64">
+        <div class="card result-area" id="resultArea">
+            <span class="card-label">Generated Image</span>
+            <div class="image-wrapper" id="imageWrapper">
+                <img id="generatedImage" src="" alt="Generated image will appear here" style="display:none;">
+                <span id="placeholderText" style="color: #52525b; font-size: 0.9rem;">Your image will appear here</span>
             </div>
-            <div class="form-group">
-                <label for="height">Height (px)</label>
-                <input type="number" id="height" value="1024" min="64" max="2048" step="64">
-            </div>
-            <div class="form-group">
-                <label for="steps">Steps</label>
-                <input type="number" id="steps" value="9" min="1" max="50" step="1">
+            <div class="download-bar">
+                <button class="btn btn-outline" id="downloadBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download PNG
+                </button>
+                <button class="btn btn-outline" id="newGenBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    New Generation
+                </button>
             </div>
         </div>
-
-        <button class="btn btn-primary" id="generateBtn" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-            Generate Image
-        </button>
-
-        <!-- Toast messages -->
-        <div class="toast error" id="errorToast"></div>
-        <div class="toast info" id="infoToast"></div>
     </div>
-
-    <!-- Result Card -->
-    <div class="card result-area" id="resultArea">
-        <span class="card-label">Generated Image</span>
-        <div class="image-wrapper" id="imageWrapper">
-            <img
-            id="generatedImage"
-            src=""
-            alt="Generated image will appear here"
-            style="display:none;"
-        />
-        <span id="placeholderText" style="color: #52525b; font-size: 0.9rem;">
-            Your image will appear here
-        </span>
-    </div>
-    <div class="download-bar">
-        <button class="btn btn-outline" id="downloadBtn" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            Download PNG
-        </button>
-        <button class="btn btn-outline" id="newGenBtn" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            New Generation
-        </button>
-    </div>
-</div>
-</div>
 
 <script>
-    (function() {
-        // DOM elements
-        const promptEl = document.getElementById('prompt');
-        const widthEl = document.getElementById('width');
-        const heightEl = document.getElementById('height');
-        const stepsEl = document.getElementById('steps');
-        const generateBtn = document.getElementById('generateBtn');
-        const errorToast = document.getElementById('errorToast');
-        const infoToast = document.getElementById('infoToast');
-        const resultArea = document.getElementById('resultArea');
-        const generatedImage = document.getElementById('generatedImage');
-        const placeholderText = document.getElementById('placeholderText');
-        const imageWrapper = document.getElementById('imageWrapper');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const newGenBtn = document.getElementById('newGenBtn');
-        const formCard = document.getElementById('formCard');
+(function() {
+    const promptEl = document.getElementById('prompt');
+    const widthEl = document.getElementById('width');
+    const heightEl = document.getElementById('height');
+    const stepsEl = document.getElementById('steps');
+    const generateBtn = document.getElementById('generateBtn');
+    const errorToast = document.getElementById('errorToast');
+    const infoToast = document.getElementById('infoToast');
+    const successToast = document.getElementById('successToast');
+    const warnToast = document.getElementById('warnToast');
+    const resultArea = document.getElementById('resultArea');
+    const generatedImage = document.getElementById('generatedImage');
+    const placeholderText = document.getElementById('placeholderText');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const newGenBtn = document.getElementById('newGenBtn');
+    const formCard = document.getElementById('formCard');
+    const debugPanel = document.getElementById('debugPanel');
+    const debugToggle = document.getElementById('debugToggle');
 
-        const API_URL = 'https://jokinig-really--zimage-api-fastapi-app.modal.run/generate';
+    const API_URL = 'https://jokinig-really--zimage-api-fastapi-app.modal.run/generate';
 
-        let isGenerating = false;
-        let currentImageDataUrl = null;
+    let isGenerating = false;
+    let currentImageDataUrl = null;
+    let debugLogs = [];
 
-        // Hide all toasts
-        function hideToasts() {
-            errorToast.classList.remove('active');
-            infoToast.classList.remove('active');
+    function log(level, ...args) {
+        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
+        debugLogs.push({ level, msg, time: new Date().toLocaleTimeString() });
+        console[level === 'error' ? 'error' : 'log'](...args);
+        renderDebug();
+    }
+
+    function renderDebug() {
+        if (debugLogs.length > 0) {
+            debugToggle.style.display = 'block';
+        }
+        debugPanel.innerHTML = '<div class="debug-title">🔍 Debug Log (last 50 entries)</div>' +
+            debugLogs.slice(-50).map(e => {
+                const colorClass = e.level === 'error' ? 'debug-error' : e.level === 'warn' ? 'debug-warn' : 'debug-value';
+                return `<div class="debug-line"><span class="debug-key">[${e.time}]</span> <span class="${colorClass}">${escapeHtml(e.msg)}</span></div>`;
+            }).join('');
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    debugToggle.addEventListener('click', () => {
+        debugPanel.classList.toggle('active');
+        debugToggle.textContent = debugPanel.classList.contains('active') ? 'Hide Debug Log' : 'Show Debug Log';
+    });
+
+    function hideToasts() {
+        errorToast.classList.remove('active');
+        infoToast.classList.remove('active');
+        successToast.classList.remove('active');
+        warnToast.classList.remove('active');
+    }
+
+    function showError(message) {
+        hideToasts();
+        errorToast.textContent = message;
+        errorToast.classList.add('active');
+        setTimeout(() => errorToast.classList.remove('active'), 10000);
+    }
+
+    function showInfo(message) {
+        hideToasts();
+        infoToast.textContent = message;
+        infoToast.classList.add('active');
+        setTimeout(() => infoToast.classList.remove('active'), 6000);
+    }
+
+    function showSuccess(message) {
+        hideToasts();
+        successToast.textContent = message;
+        successToast.classList.add('active');
+        setTimeout(() => successToast.classList.remove('active'), 6000);
+    }
+
+    function showWarn(message) {
+        hideToasts();
+        warnToast.textContent = message;
+        warnToast.classList.add('active');
+        setTimeout(() => warnToast.classList.remove('active'), 8000);
+    }
+
+    function setLoading(loading) {
+        isGenerating = loading;
+        generateBtn.disabled = loading;
+        if (loading) {
+            generateBtn.innerHTML = '<span class="spinner"></span> Generating...';
+        } else {
+            generateBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                Generate Image
+            `;
+        }
+    }
+
+    function base64ToDataUrl(base64, mimeType = 'image/png') {
+        if (base64.startsWith('data:')) return base64;
+        const cleaned = base64.replace(/\s/g, '');
+        return `data:${mimeType};base64,${cleaned}`;
+    }
+
+    function isValidBase64(str) {
+        try {
+            return btoa(atob(str.replace(/\s/g, ''))) === str.replace(/\s/g, '');
+        } catch {
+            return false;
+        }
+    }
+
+    function showImage(dataUrl) {
+        currentImageDataUrl = dataUrl;
+        generatedImage.src = dataUrl;
+        generatedImage.style.display = 'block';
+        generatedImage.classList.add('loading-img');
+        placeholderText.style.display = 'none';
+
+        generatedImage.onload = () => {
+            generatedImage.classList.remove('loading-img');
+        };
+
+        if (generatedImage.complete && generatedImage.naturalWidth > 0) {
+            generatedImage.classList.remove('loading-img');
         }
 
-        function showError(message) {
-            hideToasts();
-            errorToast.textContent = message;
-            errorToast.classList.add('active');
-            // Auto-hide after 8 seconds
-            setTimeout(() => errorToast.classList.remove('active'), 8000);
-        }
+        generatedImage.onerror = () => {
+            showError('Failed to load the generated image. The data may be corrupted.');
+            log('error', 'Image onerror fired. Data URL length:', dataUrl.length);
+        };
 
-        function showInfo(message) {
-            hideToasts();
-            infoToast.textContent = message;
-            infoToast.classList.add('active');
-            setTimeout(() => infoToast.classList.remove('active'), 6000);
-        }
+        resultArea.classList.add('active');
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
-        function setLoading(loading) {
-            isGenerating = loading;
-            generateBtn.disabled = loading;
-            if (loading) {
-                generateBtn.innerHTML = '<span class="spinner"></span> Generating...';
-            } else {
-                generateBtn.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                            <polygon points="5 3 19 12 5 21 5 3" />
-                        </svg>
-                        Generate Image
-                    `;
-            }
-        }
+    async function generateImage() {
+        hideToasts();
+        debugLogs = [];
+        renderDebug();
+        debugPanel.classList.remove('active');
+        debugToggle.textContent = 'Show Debug Log';
 
-        function base64ToDataUrl(base64, mimeType = 'image/png') {
-            // If it already starts with data:, return as-is
-            if (base64.startsWith('data:')) return base64;
-            // Clean up any whitespace or newlines
-            const cleaned = base64.replace(/\s/g, '');
-            return `data:${mimeType};base64,${cleaned}`;
-        }
-
-        function showImage(dataUrl) {
-            currentImageDataUrl = dataUrl;
-            generatedImage.src = dataUrl;
-            generatedImage.style.display = 'block';
-            generatedImage.classList.add('loading-img');
-            placeholderText.style.display = 'none';
-
-            // Remove blur once loaded
-            generatedImage.onload = () => {
-                generatedImage.classList.remove('loading-img');
-            };
-
-            // If already cached and loaded instantly
-            if (generatedImage.complete && generatedImage.naturalWidth > 0) {
-                generatedImage.classList.remove('loading-img');
-            }
-
-            resultArea.classList.add('active');
-            // Smooth scroll to result
-            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        async function generateImage() {
-            hideToasts();
-
-            const prompt = promptEl.value.trim();
-            if (!prompt) {
-                showError('Please enter a prompt describing the image you want.');
-                promptEl.focus();
-                return;
-            }
-
-            const width = parseInt(widthEl.value, 10);
-            const height = parseInt(heightEl.value, 10);
-            const steps = parseInt(stepsEl.value, 10);
-
-            if (isNaN(width) || width < 64 || width > 2048) {
-                showError('Width must be between 64 and 2048 pixels.');
-                widthEl.focus();
-                return;
-            }
-            if (isNaN(height) || height < 64 || height > 2048) {
-                showError('Height must be between 64 and 2048 pixels.');
-                heightEl.focus();
-                return;
-            }
-            if (isNaN(steps) || steps < 1 || steps > 50) {
-                showError('Steps must be between 1 and 50.');
-                stepsEl.focus();
-                return;
-            }
-
-            setLoading(true);
-            showInfo('Generating image... this may take a few moments.');
-
-            const payload = {
-                prompt: prompt,
-                width: width,
-                height: height,
-                steps: steps,
-            };
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                if (!response.ok) {
-                    let errorDetail = `API responded with status ${response.status}`;
-                    try {
-                        const errBody = await response.json();
-                        if (errBody.detail) errorDetail = errBody.detail;
-                        else if (errBody.message) errorDetail = errBody.message;
-                        else if (typeof errBody === 'string') errorDetail = errBody;
-                    } catch {
-                        // Couldn't parse error body, use default
-                    }
-                    throw new Error(errorDetail);
-                }
-
-                const data = await response.json();
-
-                // Look for the base64 image in the response
-                // The n8n workflow expects `image_base64` property
-                let base64Image = null;
-
-                if (data.image_base64) {
-                    base64Image = data.image_base64;
-                } else if (data.image) {
-                    base64Image = data.image;
-                } else if (data.data) {
-                    base64Image = data.data;
-                } else if (data.result) {
-                    base64Image = data.result;
-                } else if (typeof data === 'string') {
-                    base64Image = data;
-                } else {
-                    // Try to find any base64-like string in the response
-                    const jsonStr = JSON.stringify(data);
-                    const base64Match = jsonStr.match(/[A-Za-z0-9+/]{100,}={0,2}/);
-                    if (base64Match) {
-                        base64Image = base64Match[0];
-                    }
-                }
-
-                if (!base64Image) {
-                    console.error('Response data:', data);
-                    throw new Error(
-                        'No image data found in the response. The API may have returned an unexpected format.'
-                    );
-                }
-
-                const dataUrl = base64ToDataUrl(base64Image);
-                showImage(dataUrl);
-                hideToasts();
-                showInfo('✅ Image generated successfully!');
-
-            } catch (error) {
-                console.error('Generation error:', error);
-                if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                    showError(
-                        'Network error: Unable to reach the API. Please check your internet connection or try again later.'
-                    );
-                } else {
-                    showError(`Generation failed: ${error.message}`);
-                }
-                setLoading(false);
-            } finally {
-                if (!isGenerating) {
-                    setLoading(false);
-                }
-                // If generation succeeded, loading is already false from showImage flow
-                // But we need to reset button state; let's check
-                if (!errorToast.classList.contains('active') || resultArea.classList.contains('active')) {
-                    setLoading(false);
-                }
-                // Safety: always reset after a short delay if stuck
-                setTimeout(() => {
-                    if (isGenerating && !resultArea.classList.contains('active') && !errorToast.classList
-                        .contains('active')) {
-                        setLoading(false);
-                    }
-                }, 30000);
-            }
-        }
-
-        function downloadImage() {
-            if (!currentImageDataUrl) {
-                showError('No image to download yet. Generate one first!');
-                return;
-            }
-
-            const link = document.createElement('a');
-            link.href = currentImageDataUrl;
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-            const safePrompt = promptEl.value.trim().slice(0, 40).replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g,
-                '-') || 'image';
-            link.download = `zimage-${safePrompt}-${timestamp}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showInfo('📥 Image download started!');
-        }
-
-        function resetForNew() {
-            resultArea.classList.remove('active');
-            generatedImage.style.display = 'none';
-            generatedImage.src = '';
-            placeholderText.style.display = '';
-            currentImageDataUrl = null;
-            hideToasts();
-            // Scroll back to form
-            formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const prompt = promptEl.value.trim();
+        if (!prompt) {
+            showError('Please enter a prompt describing the image you want.');
             promptEl.focus();
+            return;
         }
 
-        // Event listeners
-        generateBtn.addEventListener('click', generateImage);
-        downloadBtn.addEventListener('click', downloadImage);
-        newGenBtn.addEventListener('click', resetForNew);
+        const width = parseInt(widthEl.value, 10);
+        const height = parseInt(heightEl.value, 10);
+        const steps = parseInt(stepsEl.value, 10);
 
-        // Keyboard shortcut: Ctrl+Enter to generate
-        promptEl.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        if (isNaN(width) || width < 64 || width > 2048) {
+            showError('Width must be between 64 and 2048 pixels.');
+            widthEl.focus();
+            return;
+        }
+        if (isNaN(height) || height < 64 || height > 2048) {
+            showError('Height must be between 64 and 2048 pixels.');
+            heightEl.focus();
+            return;
+        }
+        if (isNaN(steps) || steps < 1 || steps > 50) {
+            showError('Steps must be between 1 and 50.');
+            stepsEl.focus();
+            return;
+        }
+
+        setLoading(true);
+        showInfo('Generating image... this may take 10-30 seconds on cold start.');
+        log('info', 'Starting generation with prompt:', prompt, 'size:', width, 'x', height);
+
+        const payload = { prompt, width, height, steps };
+
+        try {
+            log('info', 'POST', API_URL);
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json, image/*, */*'
+                },
+                body: JSON.stringify(payload),
+            });
+
+            log('info', 'Response status:', response.status, response.statusText);
+            log('info', 'Response headers:', [...response.headers.entries()].map(h => h.join(': ')).join(', '));
+
+            if (!response.ok) {
+                let errorDetail = `API responded with status ${response.status}`;
+                try {
+                    const errBody = await response.text();
+                    log('error', 'Error response body:', errBody.slice(0, 2000));
+                    try {
+                        const errJson = JSON.parse(errBody);
+                        if (errJson.detail) errorDetail = errJson.detail;
+                        else if (errJson.message) errorDetail = errJson.message;
+                        else errorDetail = errBody;
+                    } catch {
+                        errorDetail = errBody || errorDetail;
+                    }
+                } catch {
+                    // ignore
+                }
+                throw new Error(errorDetail);
+            }
+
+            const contentType = response.headers.get('content-type') || '';
+            log('info', 'Content-Type:', contentType);
+
+            let dataUrl = null;
+
+            // Strategy 1: JSON response
+            if (contentType.includes('application/json')) {
+                const data = await response.json();
+                log('info', 'JSON response keys:', Object.keys(data).join(', '));
+                log('info', 'JSON response sample:', JSON.stringify(data).slice(0, 500));
+
+                let base64Image = null;
+                if (data.image_base64) base64Image = data.image_base64;
+                else if (data.image) base64Image = data.image;
+                else if (data.data) base64Image = data.data;
+                else if (data.result) base64Image = data.result;
+                else if (data.output) base64Image = data.output;
+                else if (data.base64) base64Image = data.base64;
+                else if (typeof data === 'string') base64Image = data;
+
+                if (base64Image) {
+                    dataUrl = base64ToDataUrl(base64Image);
+                } else {
+                    // Maybe it's a nested object?
+                    const jsonStr = JSON.stringify(data);
+                    const base64Match = jsonStr.match(/["']([A-Za-z0-9+/]{100,}={0,2})["']/);
+                    if (base64Match) {
+                        log('warn', 'Found base64 via regex in JSON');
+                        dataUrl = base64ToDataUrl(base64Match[1]);
+                    } else if (data.url || data.image_url) {
+                        log('info', 'Found URL in JSON, fetching image...');
+                        const imgUrl = data.url || data.image_url;
+                        dataUrl = await fetchImageAsDataUrl(imgUrl);
+                    } else {
+                        throw new Error('No image data found in JSON response. Keys received: ' + Object.keys(data).join(', '));
+                    }
+                }
+            }
+            // Strategy 2: Direct image blob
+            else if (contentType.includes('image/')) {
+                log('info', 'Received direct image blob');
+                const blob = await response.blob();
+                dataUrl = await blobToDataUrl(blob);
+            }
+            // Strategy 3: Try JSON anyway even if content-type is wrong
+            else {
+                const text = await response.text();
+                log('info', 'Response text (first 1000 chars):', text.slice(0, 1000));
+
+                if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+                    try {
+                        const data = JSON.parse(text);
+                        log('info', 'Parsed JSON from text. Keys:', Object.keys(data).join(', '));
+                        let base64Image = data.image_base64 || data.image || data.data || data.result || data.output || data.base64;
+                        if (base64Image) {
+                            dataUrl = base64ToDataUrl(base64Image);
+                        } else if (data.url || data.image_url) {
+                            dataUrl = await fetchImageAsDataUrl(data.url || data.image_url);
+                        } else {
+                            throw new Error('JSON parsed but no image key found. Keys: ' + Object.keys(data).join(', '));
+                        }
+                    } catch (e) {
+                        if (!dataUrl) throw e;
+                    }
+                } else if (text.length > 100 && isValidBase64(text.replace(/\s/g, ''))) {
+                    log('info', 'Response appears to be raw base64 text');
+                    dataUrl = base64ToDataUrl(text);
+                } else {
+                    throw new Error('Unexpected response format. Content-Type: ' + contentType);
+                }
+            }
+
+            if (!dataUrl) {
+                throw new Error('Could not extract image from response.');
+            }
+
+            log('info', 'Image data URL length:', dataUrl.length);
+            showImage(dataUrl);
+            hideToasts();
+            showSuccess('✅ Image generated successfully!');
+
+        } catch (error) {
+            log('error', 'Generation error:', error.name, error.message);
+            console.error('Generation error:', error);
+
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                showError('Network/CORS error: Unable to reach the API. If you see this on GitHub Pages, your Modal API likely lacks CORS headers on the POST response. Check the debug log below.');
+                showWarn('💡 Tip: Add CORS middleware to your FastAPI app on Modal.');
+            } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                showError('CORS/Network error. The Modal dashboard may show 200, but the browser blocked the response. Check debug log.');
+            } else {
+                showError(`Generation failed: ${error.message}`);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function fetchImageAsDataUrl(url) {
+        log('info', 'Fetching image from URL:', url);
+        const resp = await fetch(url, { mode: 'cors' });
+        if (!resp.ok) throw new Error(`Failed to fetch image from URL: ${resp.status}`);
+        const blob = await resp.blob();
+        return await blobToDataUrl(blob);
+    }
+
+    function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    function downloadImage() {
+        if (!currentImageDataUrl) {
+            showError('No image to download yet. Generate one first!');
+            return;
+        }
+        const link = document.createElement('a');
+        link.href = currentImageDataUrl;
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        const safePrompt = promptEl.value.trim().slice(0, 40).replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '-') || 'image';
+        link.download = `zimage-${safePrompt}-${timestamp}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showSuccess('📥 Image download started!');
+    }
+
+    function resetForNew() {
+        resultArea.classList.remove('active');
+        generatedImage.style.display = 'none';
+        generatedImage.src = '';
+        placeholderText.style.display = '';
+        currentImageDataUrl = null;
+        hideToasts();
+        debugPanel.classList.remove('active');
+        formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        promptEl.focus();
+    }
+
+    generateBtn.addEventListener('click', generateImage);
+    downloadBtn.addEventListener('click', downloadImage);
+    newGenBtn.addEventListener('click', resetForNew);
+
+    promptEl.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            generateImage();
+        }
+    });
+
+    [widthEl, heightEl, stepsEl].forEach(el => {
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
                 e.preventDefault();
                 generateImage();
             }
         });
+    });
 
-        // Also allow Enter in number inputs to trigger generation
-        [widthEl, heightEl, stepsEl].forEach(el => {
-            el.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    generateImage();
-                }
-            });
-        });
-
-        // Show keyboard shortcut hint
-        console.log('✨ ZImage Generator ready. Tip: Press Ctrl+Enter in the prompt field to generate!');
-    })();
+    console.log('✨ ZImage Generator ready. Tip: Press Ctrl+Enter in the prompt field to generate!');
+})();
 </script>
 </body>
 </html>
